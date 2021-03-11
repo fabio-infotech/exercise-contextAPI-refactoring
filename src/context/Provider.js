@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import CarsContext from './CarsContext';
 import RedditContext from './RedditContext';
 import { getPostsBySubreddit } from '../services/redditAPI';
 
@@ -17,8 +18,18 @@ class RedditProvider extends Component {
       selectedSubreddit: 'reactjs',
       shouldRefreshSubreddit: false,
       isFetching: false,
+      cars: {
+        red: false,
+        blue: false,
+        yellow: false,
+      },
+      signal: {
+        color: 'red',
+      },
     };
 
+    this.moveCar = this.moveCar.bind(this);
+    this.changeSignal = this.changeSignal.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
     this.shouldFetchPosts = this.shouldFetchPosts.bind(this);
     this.handleFetchSuccess = this.handleFetchSuccess.bind(this);
@@ -36,6 +47,24 @@ class RedditProvider extends Component {
       this.fetchPosts();
     }
   }
+  
+  moveCar(car, side) {
+    this.setState({
+      cars: {
+        ...this.state.cars,
+        [car]: side,
+      },
+    });
+  };
+
+  changeSignal(signalColor) {
+    this.setState({
+      signal: {
+        ...this.state.signal,
+        color: signalColor,
+      },
+    });
+  };
 
   fetchPosts() {
     if (!this.shouldFetchPosts()) return;
@@ -120,8 +149,16 @@ class RedditProvider extends Component {
       availableSubreddits: Object.keys(postsBySubreddit),
       posts: postsBySubreddit[selectedSubreddit].items,
     };
+    const contextCar = {
+      ...this.state,
+      moveCar: this.moveCar,
+      changeSignal: this.changeSignal,
+    };      
 
     return (
+      <CarsContext.Provider value={contextCar}>
+        {children}
+      </CarsContext.Provider>
       <Provider value={context}>
         {children}
       </Provider>

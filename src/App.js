@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import Posts from './components/Posts';
 import Selector from './components/Selector';
 import RedditContext from './context/RedditContext';
+import Cars from './Cars';
+import TrafficSignal from './TrafficSignal';
 
 class App extends Component {
   componentDidMount() {
@@ -47,6 +49,8 @@ class App extends Component {
 
     return (
       <div>
+        <Cars />
+        <TrafficSignal />
         <Selector />
         <div>
           {this.renderLastUpdatedAt()}
