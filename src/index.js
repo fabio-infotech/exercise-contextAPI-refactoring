@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import Provider from './context/Provider';
+import { render } from 'react-dom';
 
-ReactDOM.render(
+import App from './App';
+import { Provider } from './context/Provider';
+
+render(
   <Provider>
     <App />
   </Provider>,
